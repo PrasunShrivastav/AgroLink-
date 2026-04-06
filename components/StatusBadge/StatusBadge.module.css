@@ -1,0 +1,53 @@
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.active {
+  background: rgba(74, 124, 63, 0.15);
+  color: var(--leaf);
+}
+
+.pending {
+  background: rgba(212, 140, 45, 0.15);
+  color: var(--harvest);
+}
+
+.completed {
+  background: rgba(123, 175, 212, 0.15);
+  color: var(--sky);
+}
+
+.paid {
+  background: rgba(74, 124, 63, 0.15);
+  color: var(--leaf);
+}
+
+.expired {
+  background: rgba(107, 79, 58, 0.15);
+  color: var(--bark);
+}
+
+.bid_received {
+  background: rgba(212, 140, 45, 0.15);
+  color: var(--harvest);
+}
+
+.sold {
+  background: rgba(123, 175, 212, 0.15);
+  color: var(--sky);
+}
+
+.in_progress {
+  background: rgba(212, 140, 45, 0.15);
+  color: var(--harvest);
+}
+
+.danger {
+  background: rgba(192, 57, 43, 0.12);
+  color: var(--danger);
+}

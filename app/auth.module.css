@@ -1,0 +1,101 @@
+.authPage {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--mist) 100%);
+  padding: 2rem 1rem;
+}
+
+.authCard {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 8px 32px var(--shadow);
+}
+
+.authCard h1 {
+  font-size: 1.6rem;
+  color: var(--soil);
+  margin-bottom: 0.4rem;
+}
+
+.authCard .subtitle {
+  color: var(--bark);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.row .form-group {
+  flex: 1;
+}
+
+.multiSelect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.multiSelect label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--bark);
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  border: 1.5px solid #d0c8be;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.multiSelect label:has(input:checked) {
+  background: var(--leaf);
+  color: var(--white);
+  border-color: var(--leaf);
+}
+
+.multiSelect input[type="checkbox"] {
+  display: none;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  font-size: 1.05rem;
+}
+
+.error {
+  background: rgba(192, 57, 43, 0.08);
+  color: var(--danger);
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.switchLink {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--bark);
+}
+
+.switchLink a {
+  color: var(--leaf);
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .authCard { padding: 1.5rem; }
+  .row { flex-direction: column; gap: 0; }
+}

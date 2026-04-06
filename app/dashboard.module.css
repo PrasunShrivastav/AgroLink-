@@ -1,0 +1,51 @@
+.dashWrap {
+  background: var(--cream);
+  min-height: calc(100vh - 56px);
+}
+
+.welcome {
+  background: linear-gradient(135deg, var(--leaf), #3d6a34);
+  color: var(--white);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.welcome h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.welcome p {
+  opacity: 0.85;
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.quickActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.quickActions a,
+.quickActions button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--soil);
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.notifList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

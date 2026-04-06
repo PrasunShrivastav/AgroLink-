@@ -1,0 +1,241 @@
+.hero {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--mist) 50%, var(--cream) 100%);
+  text-align: center;
+  padding: 3rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(74, 124, 63, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(212, 140, 45, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.wheat {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--soil);
+  line-height: 1.15;
+  max-width: 700px;
+}
+
+.title span {
+  color: var(--leaf);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--bark);
+  max-width: 560px;
+  margin: 1rem auto 2.5rem;
+  line-height: 1.6;
+}
+
+.roleButtons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.roleBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--white);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 200px;
+}
+
+.roleBtn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px var(--shadow-hover);
+}
+
+.roleBtn .emoji {
+  font-size: 2.5rem;
+}
+
+.roleBtn .label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--soil);
+}
+
+.roleBtn .desc {
+  font-size: 0.85rem;
+  color: var(--bark);
+}
+
+.farmerBtn { border-top: 4px solid var(--leaf); }
+.buyerBtn { border-top: 4px solid var(--harvest); }
+
+/* Stats Strip */
+.statsStrip {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 2.5rem 1rem;
+  background: var(--soil);
+  color: var(--cream);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statItem h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--harvest);
+}
+
+.statItem p {
+  font-size: 0.9rem;
+  color: var(--cream);
+  margin-top: 0.25rem;
+}
+
+/* How It Works */
+.howSection {
+  padding: 4rem 2rem;
+  background: var(--mist);
+  text-align: center;
+}
+
+.howSection h2 {
+  font-size: 2rem;
+  color: var(--soil);
+  margin-bottom: 2rem;
+}
+
+.howCards {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.howCard {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.75rem;
+  flex: 1;
+  min-width: 220px;
+  max-width: 280px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.howCard .step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--leaf);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 auto 1rem;
+}
+
+.howCard h3 {
+  font-size: 1.1rem;
+  color: var(--soil);
+  margin-bottom: 0.5rem;
+}
+
+.howCard p {
+  font-size: 0.9rem;
+  color: var(--bark);
+  line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+  background: var(--soil);
+  color: var(--cream);
+  padding: 3rem 2rem 1.5rem;
+}
+
+.footerInner {
+  display: flex;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.footerCol {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footerCol h4 {
+  color: var(--harvest);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.footerCol p,
+.footerCol a {
+  font-size: 0.85rem;
+  color: var(--cream);
+  line-height: 2;
+  display: block;
+  opacity: 0.85;
+}
+
+.footerCol a:hover {
+  opacity: 1;
+  color: var(--harvest);
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.15);
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.loginLink {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--bark);
+}
+
+.loginLink a {
+  color: var(--leaf);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .title { font-size: 2.2rem; }
+  .statsStrip { flex-wrap: wrap; gap: 1.5rem; }
+  .statItem h3 { font-size: 1.6rem; }
+}
