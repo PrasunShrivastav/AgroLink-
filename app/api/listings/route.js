@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Listing from '@/lib/models/Listing';
+import { addActivity } from '@/lib/activityServer';
 
 export async function GET(request) {
   try {
@@ -38,6 +39,15 @@ export async function POST(request) {
     await dbConnect();
     const body = await request.json();
     const listing = await Listing.create(body);
+
+    await addActivity({
+      userId:  listing.farmerId,
+      role:    'farmer',
+      type:    'listing_created',
+      message: `Your ${listing.variety || ''} ${listing.crop} listing (${listing.quantity}${listing.unit}) is now live on the marketplace`,
+      meta:    { listingId: listing._id, crop: listing.crop, quantity: listing.quantity }
+    });
+
     return NextResponse.json(listing, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Course from '@/lib/models/Course';
+import { addActivity } from '@/lib/activityServer';
 
 export async function GET() {
   try {
@@ -25,6 +26,15 @@ export async function POST(request) {
 
     course.enrollments.push(farmerId);
     await course.save();
+
+    await addActivity({
+      userId:  farmerId,
+      role:    'farmer',
+      type:    'course_enrolled',
+      message: `You enrolled in ${course.title}. Our team will contact you within 2 working days`,
+      meta:    { courseId, courseName: course.title }
+    });
+
     return NextResponse.json(course);
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });

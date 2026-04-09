@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
+import { addActivity } from '@/lib/activityServer';
 
 export async function GET(request) {
   try {
@@ -40,6 +41,23 @@ export async function POST(request) {
         { label: 'Delivered', status: 'pending', timestamp: null },
       ],
     });
+
+    await addActivity({
+      userId:  order.farmerId,
+      role:    'farmer',
+      type:    'order_confirmed',
+      message: `New order from ${order.buyerName} for ${order.quantity}q of ${order.crop} at ₹${order.agreedPrice}/q`,
+      meta:    { orderId: order._id, crop: order.crop, qty: order.quantity }
+    });
+    
+    await addActivity({
+      userId:  order.buyerId,
+      role:    'buyer',
+      type:    'order_placed',
+      message: `Order placed for ${order.quantity}q of ${order.crop} from ${order.farmerName} at ₹${order.agreedPrice}/q. Total: ₹${order.quantity * order.agreedPrice}`,
+      meta:    { orderId: order._id, crop: order.crop, qty: order.quantity, total: order.quantity * order.agreedPrice }
+    });
+
     return NextResponse.json(order, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
