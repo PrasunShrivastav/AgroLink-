@@ -11,6 +11,10 @@ export default function FarmerTrackOrder() {
   const params = useParams();
   const [order, setOrder] = useState(null);
   const [copied, setCopied] = useState(false);
+<<<<<<< HEAD
+=======
+  const [poolFarmers, setPoolFarmers] = useState(3);
+>>>>>>> c1f543d (Add voice listing, skill pathways, demand forecast, and pooling tools)
 
   useEffect(() => {
     if (!loading && (!user || user.role !== 'farmer')) router.push('/login');
@@ -52,6 +56,8 @@ export default function FarmerTrackOrder() {
   };
 
   if (loading || !user || !order) return null;
+  const estimatedSoloFreight = Math.max(400, order.quantity * 40);
+  const pooledFreight = Math.round(estimatedSoloFreight / Math.max(poolFarmers, 1));
 
   return (
     <div className="page-container">
@@ -103,6 +109,31 @@ export default function FarmerTrackOrder() {
               </button>
             </div>
           </div>
+<<<<<<< HEAD
+=======
+
+          <div style={{ border: '1px solid #e9ecef', borderRadius: '12px', padding: '1rem' }}>
+            <h3 style={{ marginTop: 0, color: 'var(--soil)', fontSize: '1rem' }}>🚚 Community Logistics Pooling</h3>
+            <p style={{ color: 'var(--bark)', fontSize: '0.85rem' }}>
+              Join nearby farmers to split transport and improve margins.
+            </p>
+            <label style={{ display: 'block', fontSize: '0.82rem', marginBottom: '0.4rem' }}>Farmers in pool: {poolFarmers}</label>
+            <input
+              type="range"
+              min="1"
+              max="6"
+              value={poolFarmers}
+              onChange={(e) => setPoolFarmers(Number(e.target.value))}
+              style={{ width: '100%' }}
+            />
+            <p style={{ margin: '0.5rem 0', fontSize: '0.9rem' }}>
+              Solo freight: <strong>₹{estimatedSoloFreight}</strong>
+            </p>
+            <p style={{ margin: '0.3rem 0', fontSize: '0.9rem', color: 'var(--leaf)' }}>
+              Pooled freight estimate: <strong>₹{pooledFreight}</strong> (save ₹{estimatedSoloFreight - pooledFreight})
+            </p>
+          </div>
+>>>>>>> c1f543d (Add voice listing, skill pathways, demand forecast, and pooling tools)
         </div>
 
         {order.supplyChainSteps[3].status === 'active' && (
