@@ -48,6 +48,10 @@ export default function LoginPage() {
           <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
         </div>
 
+        <p className={styles.forgotText}>
+          <Link href="/forgot-password">Forgot password?</Link>
+        </p>
+
         <button type="submit" className={`btn-primary ${styles.submitBtn}`}>
           Log In
         </button>

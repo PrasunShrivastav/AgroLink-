@@ -17,15 +17,18 @@
 }
 
 .authCard h1 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: var(--soil);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .authCard .subtitle {
   color: var(--bark);
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  margin-bottom: 1.75rem;
+  line-height: 1.6;
 }
 
 .row {
@@ -69,25 +72,41 @@
 
 .submitBtn {
   width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.85rem;
+  margin-top: 1rem;
+  padding: 0.95rem 1.5rem;
   font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.forgotText {
+  text-align: right;
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+}
+
+.forgotText a {
+  color: var(--leaf);
+  font-weight: 600;
 }
 
 .error {
   background: rgba(192, 57, 43, 0.08);
   color: var(--danger);
-  padding: 0.65rem 1rem;
+  padding: 0.95rem 1.1rem;
   border-radius: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  border-left: 4px solid var(--danger);
 }
 
 .switchLink {
   text-align: center;
-  margin-top: 1.25rem;
-  font-size: 0.9rem;
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
   color: var(--bark);
+  line-height: 1.6;
 }
 
 .switchLink a {

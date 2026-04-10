@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 2rem;
+  padding: 0.85rem 2rem;
   background: var(--cream);
   border-bottom: 1px solid rgba(107, 79, 58, 0.12);
   transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -22,7 +22,8 @@
   color: var(--soil);
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  line-height: 1.3;
 }
 
 .logo span {
@@ -38,11 +39,12 @@
 
 .navLinks a {
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--bark);
-  padding: 0.4rem 0;
+  padding: 0.5rem 0.6rem;
   border-bottom: 2px solid transparent;
   transition: color 0.2s ease, border-color 0.2s ease;
+  line-height: 1.5;
 }
 
 .navLinks a:hover,
@@ -54,11 +56,12 @@
 .logoutBtn {
   background: var(--danger);
   color: var(--white);
-  padding: 0.4rem 1rem;
+  padding: 0.55rem 1.2rem;
   border-radius: 6px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1.5;
 }
 
 .logoutBtn:hover {

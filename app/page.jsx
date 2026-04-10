@@ -23,10 +23,13 @@ export default function LandingPage() {
     <>
       {/* Hero */}
       <section className={styles.hero}>
-        <div className={styles.wheat}>🌾</div>
+        <div className={styles.wheat} text-green>🌾AgroLink</div>
         <h1 className={styles.title}>
-          Fair deals, <span>straight from the field</span>
+           
         </h1>
+          <h1>
+            <span>Fair deals , Straight from the field</span>
+          </h1>
         <p className={styles.subtitle}>
           AgroLink connects farmers directly with buyers. No middlemen eating your profit.
           Real prices, real pay, and you can track every step from harvest to doorstep.

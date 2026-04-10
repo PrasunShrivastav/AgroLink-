@@ -1,13 +1,14 @@
 .notifCard {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.85rem;
   align-items: flex-start;
-  padding: 0.85rem 1rem;
+  padding: 1rem 1.25rem;
   border-radius: 8px;
   background: var(--white);
-  border-left: 3px solid var(--harvest);
+  border-left: 4px solid var(--harvest);
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.2s ease;
+  margin-bottom: 0.85rem;
 }
 
 .notifCard:hover {
@@ -19,9 +20,10 @@
 }
 
 .icon {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
-  margin-top: 0.1rem;
+  margin-top: 0.15rem;
+  line-height: 1.3;
 }
 
 .content {
@@ -29,14 +31,16 @@
 }
 
 .message {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--soil);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .time {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--bark);
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
+  opacity: 0.8;
+  line-height: 1.4;
 }
