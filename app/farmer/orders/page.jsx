@@ -51,14 +51,14 @@ export default function FarmerOrders() {
   // "In Progress" = in_progress (packed/in transit)
   // "Completed" = completed (delivered)
   const tabFilter = (order) => {
-    if (tab === 'pending')     return order.status === 'confirmed' || order.status === 'pending' || order.status === 'payment_pending';
+    if (tab === 'pending')     return order.status === 'confirmed' || order.status === 'pending';
     if (tab === 'in_progress') return order.status === 'in_progress';
     if (tab === 'completed')   return order.status === 'completed';
     return false;
   };
 
   const tabCount = (t) => {
-    if (t === 'pending')     return orders.filter(o => o.status === 'confirmed' || o.status === 'pending' || o.status === 'payment_pending').length;
+    if (t === 'pending')     return orders.filter(o => o.status === 'confirmed' || o.status === 'pending').length;
     if (t === 'in_progress') return orders.filter(o => o.status === 'in_progress').length;
     if (t === 'completed')   return orders.filter(o => o.status === 'completed').length;
     return 0;
@@ -128,11 +128,6 @@ export default function FarmerOrders() {
                     <button className="btn-primary" onClick={() => handleMarkPacked(order._id)} style={{ fontSize: '0.85rem' }}>
                       📦 Mark as Packed & Ready
                     </button>
-                  )}
-                  {tab === 'pending' && order.status === 'payment_pending' && (
-                    <span style={{ fontSize: '0.85rem', color: 'var(--harvest)', fontWeight: 600, padding: '0.5rem 0' }}>
-                      ⏳ Waiting for buyer payment…
-                    </span>
                   )}
                   <Link href={`/farmer/track/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
                     🔍 Track Shipment

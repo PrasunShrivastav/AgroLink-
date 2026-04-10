@@ -11,6 +11,20 @@ export default function BuyerOrders() {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
   const [tab, setTab] = useState('active');
+  const [paymentLoadingId, setPaymentLoadingId] = useState(null);
+  const [paymentError, setPaymentError] = useState(null);
+
+  // Helper to dynamically load Razorpay script
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) return resolve(true);
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   useEffect(() => {
     if (!loading && (!user || user.role !== 'buyer')) router.push('/login');
@@ -38,14 +52,14 @@ export default function BuyerOrders() {
   // "Completed" = completed (delivered)
   const tabFilter = (order) => {
     if (tab === 'active') return order.status === 'confirmed' || order.status === 'in_progress';
-    if (tab === 'pending') return order.status === 'pending' || order.status === 'payment_pending';
+    if (tab === 'pending') return order.status === 'pending' || order.status === 'checkout_pending';
     if (tab === 'completed') return order.status === 'completed';
     return false;
   };
 
   const tabCount = (t) => {
     if (t === 'active') return orders.filter(o => o.status === 'confirmed' || o.status === 'in_progress').length;
-    if (t === 'pending') return orders.filter(o => o.status === 'pending' || o.status === 'payment_pending').length;
+    if (t === 'pending') return orders.filter(o => o.status === 'pending' || o.status === 'checkout_pending').length;
     if (t === 'completed') return orders.filter(o => o.status === 'completed').length;
     return 0;
   };
@@ -58,8 +72,73 @@ export default function BuyerOrders() {
     completed: 'Completed',
   };
 
+  const handlePayNow = async (order) => {
+    setPaymentError(null);
+    setPaymentLoadingId(order._id);
+    try {
+      const isLoaded = await loadRazorpay();
+      if (!isLoaded) {
+        throw new Error('Razorpay SDK failed to load. Please check your connection.');
+      }
+      // 1. Init razorpay for existing order
+      const res = await fetch('/api/payment/create-order-for-existing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: order._id }),
+      });
+      const { success, data, error } = await res.json();
+      if (!success) throw new Error(error);
+
+      // 2. Open Razorpay modal
+      const options = {
+        key: data.keyId,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.razorpayOrderId,
+        name: 'AgroLink',
+        description: data.description,
+        prefill: data.prefill,
+        theme: { color: '#4A7C3F' },
+        handler: async (response) => {
+          // 3. Verify
+          const verifyRes = await fetch('/api/payment/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpayOrderId:   response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+              orderId:           data.orderId,
+              paymentMethod:     response.razorpay_payment_method || null,
+            }),
+          });
+          const verifyData = await verifyRes.json();
+          if (verifyData.success) {
+            setPaymentLoadingId(null);
+            fetchOrders();
+          } else {
+            setPaymentLoadingId(null);
+            setPaymentError(verifyData.error || 'Payment verification failed');
+          }
+        },
+        modal: { ondismiss: () => setPaymentLoadingId(null) },
+      };
+      
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response) {
+        setPaymentError(response.error.description);
+        setPaymentLoadingId(null);
+      });
+      rzp.open();
+    } catch (err) {
+      setPaymentError(err.message);
+      setPaymentLoadingId(null);
+    }
+  };
+
   const getStatusLabel = (status, paymentStatus) => {
-    if (status === 'payment_pending') return 'Awaiting Payment';
+    if (status === 'pending') return 'Waiting for Farmer Approval';
+    if (status === 'checkout_pending') return 'Awaiting Payment';
     if (status === 'confirmed') return 'Confirmed — In Processing';
     if (status === 'in_progress') return 'In Transit';
     if (status === 'completed') return 'Delivered';
@@ -116,17 +195,35 @@ export default function BuyerOrders() {
                   <span>Total: <strong style={{ color: 'var(--leaf)' }}>₹{totalAmount.toLocaleString('en-IN')}</strong></span>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  <Link href={`/buyer/track/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
-                    🚚 Track Delivery
-                  </Link>
-                  {tab === 'completed' && order.paymentStatus === 'paid' && (
-                    <Link href={`/buyer/rate/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
-                      ⭐ Rate Farmer
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {tab === 'pending' && order.status === 'checkout_pending' && (
+                      <button 
+                        className="btn-primary" 
+                        onClick={() => handlePayNow(order)}
+                        disabled={paymentLoadingId === order._id}
+                        style={{ fontSize: '0.85rem' }}
+                      >
+                        {paymentLoadingId === order._id ? 'Processing...' : '💳 Pay Now'}
+                      </button>
+                    )}
+                    <Link href={`/buyer/track/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
+                      🚚 Track Delivery
                     </Link>
+                    {tab === 'completed' && order.paymentStatus === 'paid' && (
+                      <Link href={`/buyer/rate/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
+                        ⭐ Rate Farmer
+                      </Link>
+                    )}
+                    {tab === 'completed' && order.paymentStatus === 'paid' && (
+                      <Link href={`/buyer/invoice/${order._id}`} className="btn-secondary" style={{ fontSize: '0.85rem' }}>
+                        🧾 View Invoice
+                      </Link>
+                    )}
+                  </div>
+                  {paymentError && paymentLoadingId === order._id && (
+                    <div style={{ color: 'red', fontSize: '0.85rem', marginTop: '0.5rem' }}>{paymentError}</div>
                   )}
                 </div>
-              </div>
             );
           })}
         </div>

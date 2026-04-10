@@ -42,6 +42,7 @@ export default function BuyerListingDetail() {
   // ── Make offer (unchanged) ────────────────────────────────────────────────
   const handleMakeOffer = async (e) => {
     e.preventDefault();
+    // 1. Send the bid to the listing
     await fetch(`/api/listings/${params.id}/bid`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -53,6 +54,25 @@ export default function BuyerListingDetail() {
         message: form.message,
       }),
     });
+
+    // 2. Create a "Pending" order so it shows up in Procurement Orders > Pending
+    await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        listingId: listing._id,
+        farmerId: listing.farmerId,
+        buyerId: user.id,
+        farmerName: listing.farmerName,
+        buyerName: user.businessName,
+        crop: listing.crop,
+        quantity: Number(form.quantity),
+        agreedPrice: Number(form.price), // Initial bid price
+        status: 'pending',
+        farmerDistrict: listing.farmerDistrict
+      }),
+    });
+
     setModal('offer_success');
     fetchListing();
   };

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Listing from '@/lib/models/Listing';
+import Order from '@/lib/models/Order';
 import { addActivity } from '@/lib/activityServer';
 
 export async function POST(request, { params }) {
@@ -51,6 +52,16 @@ export async function PATCH(request, { params }) {
     if (action === 'accept') {
       bid.status = 'accepted';
       listing.status = 'sold';
+      
+      // Update existing order to checkout_pending
+      await Order.findOneAndUpdate(
+        { listingId: params.id, buyerId: bid.buyerId, status: 'pending' },
+        { 
+          status: 'checkout_pending',
+          agreedPrice: bid.offeredPrice,
+          totalAmount: bid.offeredPrice * bid.quantity
+        }
+      );
     } else if (action === 'counter') {
       bid.status = 'countered';
       bid.counterPrice = counterPrice;

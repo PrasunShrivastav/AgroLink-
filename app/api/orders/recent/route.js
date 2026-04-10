@@ -11,7 +11,7 @@ export async function GET(request) {
 
     const orders = await Order.find({ 
       farmerId, 
-      status: { $ne: 'payment_pending' } 
+      status: { $nin: ['payment_pending', 'checkout_pending', 'completed'] } 
     }).sort({ createdAt: -1 }).limit(3);
     return NextResponse.json({ success: true, data: orders });
   } catch (err) {

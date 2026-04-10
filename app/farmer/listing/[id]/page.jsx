@@ -29,27 +29,6 @@ export default function FarmerListingDetail() {
       body: JSON.stringify({ bidId, action, counterPrice: counterPrice ? Number(counterPrice) : undefined }),
     });
     fetchListing();
-
-    if (action === 'accept') {
-      const bid = listing.bids.find(b => b._id === bidId);
-      if (bid) {
-        await fetch('/api/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            listingId: listing._id,
-            farmerId: user.id,
-            buyerId: bid.buyerId,
-            farmerName: user.name,
-            buyerName: bid.buyerName,
-            crop: listing.crop,
-            quantity: bid.quantity,
-            agreedPrice: bid.offeredPrice,
-            farmerDistrict: user.district,
-          }),
-        });
-      }
-    }
   };
 
   if (loading || !user || !listing) return null;

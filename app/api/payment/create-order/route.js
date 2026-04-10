@@ -89,6 +89,8 @@ export async function POST(req) {
         keyId:           process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         prefill: {
           name: buyerName,
+          email: 'buyer@agrolink.in',
+          contact: '9999999999'
         },
         description: `Payment for ${quantity} ${listing.unit} of ${listing.crop} from ${listing.farmerName}`,
       },
