@@ -14,7 +14,7 @@ export async function GET(request) {
     const orders = await Order.find({ farmerId });
 
     const activeListings = listings.filter(l => ['active','bid_received','negotiating'].includes(l.status)).length;
-    const pendingOrders  = orders.filter(o => ['confirmed', 'payment_pending', 'pending'].includes(o.status)).length;
+    const pendingOrders  = orders.filter(o => ['confirmed', 'pending'].includes(o.status)).length;
     const completedSales = orders.filter(o => o.status === 'completed').length;
     const totalEarnings  = orders
       .filter(o => o.paymentStatus === 'paid')

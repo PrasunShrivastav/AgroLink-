@@ -9,7 +9,10 @@ export async function GET(request) {
     const farmerId = searchParams.get('farmerId');
     if (!farmerId) return NextResponse.json({ error: 'farmerId missing' }, { status: 400 });
 
-    const orders = await Order.find({ farmerId }).sort({ createdAt: -1 }).limit(3);
+    const orders = await Order.find({ 
+      farmerId, 
+      status: { $ne: 'payment_pending' } 
+    }).sort({ createdAt: -1 }).limit(3);
     return NextResponse.json({ success: true, data: orders });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
